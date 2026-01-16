@@ -13,6 +13,44 @@ async function getDish(id) {
     return null;
   }
 }
+// ... imports and getDish function ...
+
+// DYNAMIC METADATA GENERATOR
+export async function generateMetadata({ params }) {
+  // 1. Await params 
+  const { id } = await params;
+  
+  // 2. Fetch the specific dish data
+  const dish = await getDish(id);
+
+  // 3. Handle case where dish doesn't exist
+  if (!dish) {
+    return {
+      title: "Dish Not Found",
+      description: "The requested item could not be found on our menu.",
+    };
+  }
+
+  // 4. Return custom metadata for this specific dish
+  return {
+    title: dish.name, // Tab becomes "Spicy Basil Chicken | FoodieFinds"
+    description: dish.description, // Search result snippet matches the dish
+    openGraph: {
+      title: `${dish.name} - Only $${dish.price}`,
+      description: "Freshly prepared and available for order now at FoodieFinds.",
+      images: [
+        {
+          url: dish.image, // Social media shares will show the ACTUAL food image
+          width: 800,
+          height: 600,
+          alt: dish.name,
+        },
+      ],
+    },
+  };
+}
+
+// ... default export function DishDetails ...
 
 export default async function DishDetails({ params }) {
   const { id } = await params; 
@@ -44,9 +82,7 @@ export default async function DishDetails({ params }) {
           </ul>
         </div>
 
-        {/* FIX: Use standard Flexbox instead of "card lg:card-side" 
-            This prevents DaisyUI styles from breaking the image size.
-        */}
+        
         <div className="flex flex-col lg:flex-row bg-white shadow-xl rounded-3xl overflow-hidden border border-slate-100">
           
           {/* LEFT: Image Section */}
@@ -83,33 +119,35 @@ export default async function DishDetails({ params }) {
               {dish.description}
             </p>
 
-            {/* Additional Info Box */}
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-8">
-              <h3 className="font-bold text-slate-800 mb-3 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                Chef's Notes
-              </h3>
-              <ul className="space-y-2 text-slate-600 text-sm">
-                <li className="flex items-start gap-2">
-                  <span className="text-green-500">✓</span> Freshly prepared to order
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-500">✓</span> Sourced from local farms
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-orange-500">⚠</span> Allergens: Contains Dairy, Gluten
-                </li>
-              </ul>
-            </div>
-
+        {/* Chef's Notes (Universal Version) */}
+<div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-8">
+  <h3 className="font-bold text-slate-800 mb-3 flex items-center gap-2">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    Chef's Notes
+  </h3>
+  <ul className="space-y-2 text-slate-600 text-sm">
+    <li className="flex items-start gap-2">
+      <span className="text-green-500 font-bold">✓</span> 
+      Made with premium quality ingredients
+    </li>
+    <li className="flex items-start gap-2">
+      <span className="text-green-500 font-bold">✓</span> 
+      Prepared fresh for the best taste
+    </li>
+    <li className="flex items-start gap-2">
+      <span className="text-blue-500 font-bold">ⓘ</span> 
+      Have allergies? Please inquire for details.
+    </li>
+  </ul>
+</div>
             <div className="flex justify-between items-center mt-auto pt-4">
               <Link href="/menu" className="text-slate-500 hover:text-slate-800 font-bold text-sm flex items-center gap-1 transition-colors">
                 ← Back to Menu
               </Link>
               
-              <button className="btn bg-slate-900 hover:bg-orange-600 text-white rounded-full px-8 shadow-lg transition-all border-none">
-                Add to Cart
-              </button>
+              
             </div>
 
           </div>

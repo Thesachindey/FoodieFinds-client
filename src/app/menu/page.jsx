@@ -1,6 +1,13 @@
 import Link from 'next/link';
 import React from 'react';
-
+export const metadata = {
+  title: "Our Menu", // Will become "Our Menu | FoodieFinds" thanks to the template in layout.js
+  description: "Browse our complete menu of fresh, locally sourced dishes. From appetizers to desserts, find your next favorite meal at FoodieFinds.",
+  openGraph: {
+    title: "Our Menu | Delicious Dishes & Prices",
+    description: "Check out our latest offerings! Fresh ingredients, great prices, and fast delivery.",
+  },
+};
 // Server Action to fetch dishes
 async function getDishes() {
   try {

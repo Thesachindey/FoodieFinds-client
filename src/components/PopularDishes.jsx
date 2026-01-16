@@ -1,11 +1,10 @@
 import Link from 'next/link';
 import React from 'react';
 
-// 1. Helper function to fetch data from your Backend
 async function getDishes() {
   try {
     const res = await fetch('http://localhost:5000/api/dishes', { 
-      cache: 'no-store' // Ensures data is always fresh
+      cache: 'no-store'
     });
     
     if (!res.ok) return [];
@@ -17,7 +16,6 @@ async function getDishes() {
   }
 }
 
-// 2. This is now an Async Server Component
 const PopularDishes = async () => {
     
     // Fetch data directly from Express

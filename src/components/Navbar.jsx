@@ -31,13 +31,13 @@ const Navbar = () => {
             return (
                 <button 
                     onClick={handleLogout} 
-                    className="text-red-500 font-bold hover:text-red-600"
+                    className=" font-bold "
                 >
                     Logout
                 </button>
             );
         }
-        return <Link href="/login">Login</Link>;
+        return <Link href="/login" className='font-medium'>Login</Link>;
     };
 
     return (
