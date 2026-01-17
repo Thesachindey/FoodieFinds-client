@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'; 
 import AboutUs from "@/components/AboutUs";
 import Faq from "@/components/Faq";
 import Hero from "@/components/Hero";
@@ -7,6 +8,9 @@ import Stats from "@/components/Stats";
 import Testimonial from "@/components/Testimonial";
 import divider from "daisyui/components/divider";
 import Image from "next/image";
+
+import Link from 'next/link';
+
 
 export default function Home() {
   return (

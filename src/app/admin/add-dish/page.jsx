@@ -31,7 +31,7 @@ export default function AddDishPage() {
         }
 
         try {
-            const res = await fetch('http://localhost:5000/api/dishes', {
+            const res = await fetch('https://foodiefinds-server.onrender.com/api/dishes', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dishData),

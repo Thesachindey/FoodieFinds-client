@@ -3,7 +3,7 @@ import React from 'react';
 
 async function getDishes() {
   try {
-    const res = await fetch('http://localhost:5000/api/dishes', { 
+    const res = await fetch('https://foodiefinds-server.onrender.com/api/dishes', { 
       cache: 'no-store'
     });
     
@@ -44,7 +44,7 @@ const PopularDishes = async () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {popularDishes.length > 0 ? (
                         popularDishes.map((dish, index) => (
-                            <div key={dish.id} className="card bg-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-slate-100 group">
+                            <div key={dish._id} className="card bg-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-slate-100 group">
                                 
                                 {/* IMAGE AREA */}
                                 <figure className="relative h-64 overflow-hidden">

@@ -1,23 +1,23 @@
 import { NextResponse } from 'next/server';
 
-export default function middleware(request) {
+// CHANGED: Function name must be 'proxy' in Next.js 16+
+export default function proxy(request) {
   // 1. Retrieve the "auth" cookie
   const authCookie = request.cookies.get('auth');
   
-  // 2. Define the protected path (checking if URL starts with /admin)
+  // 2. Define the protected path
   const isProtectedRoute = request.nextUrl.pathname.startsWith('/admin');
 
-  // 3. Logic: If trying to access Admin BUT no cookie found...
+  // 3. Logic: If accessing Admin without cookie, redirect
   if (isProtectedRoute && !authCookie) {
-    // ...Kick them back to Login page
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // 4. Otherwise, let them pass
+  // 4. Otherwise, continue
   return NextResponse.next();
 }
 
-// 5. Configuration: Apply this rule only to specific paths
+// 5. Configuration remains the same
 export const config = {
   matcher: '/admin/:path*',
 };

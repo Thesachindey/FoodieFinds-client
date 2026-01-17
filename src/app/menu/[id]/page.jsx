@@ -1,9 +1,10 @@
+export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 
 // Fetch specific dish data
 async function getDish(id) {
   try {
-    const res = await fetch(`http://localhost:5000/api/dishes/${id}`, {
+    const res = await fetch(`https://foodiefinds-server.onrender.com/api/dishes/${id}`, {
       cache: 'no-store'
     });
 
@@ -18,10 +19,10 @@ async function getDish(id) {
 // DYNAMIC METADATA GENERATOR
 export async function generateMetadata({ params }) {
   // 1. Await params 
-  const { id } = await params;
+  const { _id } = await params;
   
   // 2. Fetch the specific dish data
-  const dish = await getDish(id);
+  const dish = await getDish(_id);
 
   // 3. Handle case where dish doesn't exist
   if (!dish) {

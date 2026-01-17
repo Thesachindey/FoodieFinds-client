@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import React from 'react';
 export const metadata = {
@@ -11,7 +13,7 @@ export const metadata = {
 // Server Action to fetch dishes
 async function getDishes() {
   try {
-    const res = await fetch('http://localhost:5000/api/dishes', { 
+    const res = await fetch('https://foodiefinds-server.onrender.com/api/dishes', { 
       cache: 'no-store' // Ensure fresh data on every request
     });
     
@@ -50,7 +52,7 @@ export default async function MenuPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {dishes.map((dish) => (
               <div 
-                key={dish.id} 
+                key={dish._id} 
                 className="card bg-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-slate-100 group overflow-hidden"
               >
                 
@@ -81,7 +83,7 @@ export default async function MenuPage() {
                   
                   <div className="card-actions mt-auto">
                     <Link 
-                      href={`/menu/${dish.id}`} 
+                      href={`/menu/${dish._id}`} 
                       className="btn bg-slate-900 hover:bg-orange-600 text-white w-full border-none transition-colors"
                     >
                       View Details
