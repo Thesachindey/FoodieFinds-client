@@ -1,5 +1,5 @@
 <h1 style="display: flex; align-items: center; justify-content: start; gap: 10px;">
-  <img src="./src/app/favicon.ico" width="30" /><span>🍵FoodieFinds</span>
+  <img src="./src/app/favicon.ico" width="30" /><a hrf='https://foodiefinds-blush.vercel.app/'>🍵FoodieFinds</span>
 </h1>
 
 # Digital Menu Application
