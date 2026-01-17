@@ -71,7 +71,7 @@ const Navbar = () => {
                 </div>
 
                 {/* Logo */}
-                <Link href="/" className=" md:px-3 text-xl font-bold text-white">
+                <Link href="/" className=" md:px-3 text-xl font-bold ">
                     FoodieFinds<span className="text-orange-600">.</span>
                 </Link>
             </div>
