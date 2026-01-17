@@ -33,22 +33,21 @@ const LoginForm = () => {
     setIsLoading(true);
     setError('');
 
-    // Simulate a short network delay for better UX
+    // Simulate a short network delay
     await new Promise((resolve) => setTimeout(resolve, 800));
 
     const { email, password } = formData;
 
-    // Check credentials locally (No Backend Needed)
+    // Check credentials locally
     if (email === 'admin@foodiefinds.com' && password === 'admin123') {
       
-      // Set a browser cookie so the app "remembers" you are logged in
+      // Set a browser cookie
       document.cookie = "auth=true; path=/; max-age=86400"; 
 
       // Redirect to Admin Page
       router.push('/admin/add-dish');
       
     } else {
-      // Show error if wrong
       setError('Invalid email or password');
       setIsLoading(false);
     }
@@ -130,6 +129,12 @@ const LoginForm = () => {
             >
               {isLoading ? <span className="loading loading-dots loading-md"></span> : 'Sign In'}
             </button>
+            
+            {/* --- ADDED NOTE HERE --- */}
+            <p className="text-xs text-center text-slate-400 mt-2">
+              <span className="font-bold text-orange-500">Note:</span> If you cannot login on the first attempt, please <span className="underline cursor-pointer" onClick={() => window.location.reload()}>reload the page</span> and try again.
+            </p>
+
           </form>
 
           {/* DEMO CREDENTIALS */}
