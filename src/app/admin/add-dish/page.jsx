@@ -3,20 +3,19 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function AddDishPage() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
-    const [toast, setToast] = useState(null); 
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        setToast(null);
 
         const formData = new FormData(e.target);
         
-        // 1. EXTRACT DATA
         const dishData = {
             name: formData.get('name'),
             price: formData.get('price'),
@@ -24,15 +23,14 @@ export default function AddDishPage() {
             image: formData.get('image'),
         };
 
-        // 2. VALIDATION (Check if price is valid)
         if (parseFloat(dishData.price) <= 0) {
-            setToast({ type: 'error', message: 'Price must be greater than $0.00' });
+            // Using Hot Toast Error
+            toast.error('Price must be greater than $0.00');
             setIsLoading(false);
-            return; // Stop here, don't send request
+            return; 
         }
 
         try {
-            // 3. SEND REQUEST
             const res = await fetch('http://localhost:5000/api/dishes', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -40,12 +38,11 @@ export default function AddDishPage() {
             });
 
             if (res.ok) {
-                // 4. SUCCESS & REDIRECT
-                setToast({ type: 'success', message: 'Dish added! Redirecting to menu...' });
+                toast.success('Dish added! Redirecting to menu...'); // Hot Toast Success
                 e.target.reset();
                 router.refresh(); 
 
-                // Redirect to /menu after 1.5 seconds (so user sees the success message)
+                // Redirect after 1.5s
                 setTimeout(() => {
                     router.push('/menu');
                 }, 1500);
@@ -53,25 +50,15 @@ export default function AddDishPage() {
                 throw new Error('Failed to add dish');
             }
         } catch (error) {
-            setToast({ type: 'error', message: 'Error: Could not connect to server.' });
-            setIsLoading(false); // Only stop loading on error (keep loading on success for redirect)
+            toast.error('Error: Could not connect to server.');
+            setIsLoading(false); 
         } 
-        
-        // Note: We removed the 'finally' block that hides the toast 
-        // to prevent it from disappearing before the redirect happens.
     };
 
     return (
         <div className="min-h-screen bg-slate-50 py-12 px-4 flex justify-center items-start">
             
-            {/* Toast Notification */}
-            {toast && (
-                <div className="toast toast-top toast-end z-50">
-                    <div className={`alert ${toast.type === 'success' ? 'alert-success' : 'alert-error'} text-white shadow-lg`}>
-                        <span>{toast.message}</span>
-                    </div>
-                </div>
-            )}
+            <Toaster position="top-right" />
 
             <div className="w-full max-w-2xl">
                 <div className="flex justify-between items-center mb-8">
@@ -90,7 +77,6 @@ export default function AddDishPage() {
                                 </div>
                                 <div className="form-control w-full md:w-1/3">
                                     <label className="label"><span className="label-text font-bold text-slate-700">Price ($)</span></label>
-                                    {/* Added min="0.01" for HTML validation too */}
                                     <input name="price" type="number" step="0.01" min="0.01" placeholder="14.99" className="input input-bordered bg-white w-full" required />
                                 </div>
                             </div>

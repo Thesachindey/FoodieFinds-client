@@ -1,9 +1,19 @@
+'use client'; // 1. Added this to allow cookie checking
+
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Hero = () => {
+    // 2. State to track login status
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    // 3. Check for auth cookie on load
+    useEffect(() => {
+        const hasAuthCookie = document.cookie.split('; ').some((row) => row.startsWith('auth='));
+        setIsLoggedIn(hasAuthCookie);
+    }, []);
+
     return (
-        // CHANGED: Reduced padding for mobile (px-6 py-12) -> Desktop remains p-20
         <section className="relative w-full min-h-[85vh] bg-white overflow-hidden flex items-center px-6 py-12 lg:p-20">
             
             {/* BACKGROUND SHAPE (Yellow Polygon) */}
@@ -17,7 +27,7 @@ const Hero = () => {
                         #1 Digital Menu in Town
                     </span>
 
-                    {/* Main Headline - CHANGED: Responsive text sizes (text-4xl -> 5xl -> 7xl) */}
+                    {/* Main Headline */}
                     <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-slate-900 leading-tight">
                         Discover the <br className="hidden md:block" />
                         <span className="text-red-600">Best Flavors</span> Near You
@@ -33,22 +43,26 @@ const Hero = () => {
                         Explore our curated menu of hand-crafted dishes. From spicy entrees to sweet desserts, we bring the finest ingredients to your table.
                     </p>
 
-                    {/* Buttons - CHANGED: Centered on mobile, Flex start on desktop */}
+                    {/* Buttons */}
                     <div className="flex flex-wrap gap-4 pt-4 justify-center lg:justify-start">
                         <Link href="/menu" className="btn bg-red-600 hover:bg-red-700 text-white rounded-full px-8 py-3 border-none capitalize text-lg font-medium shadow-lg hover:shadow-xl transition-all flex items-center gap-2">
                             View Full Menu
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
                         </Link>
-                        <Link href="/login" className="btn bg-white hover:bg-slate-50 text-slate-800 rounded-full px-8 py-3 border border-slate-200 capitalize text-lg font-medium shadow-sm">
-                            Admin Login
-                        </Link>
+                        
+                        {/* 4. CONDITIONAL RENDERING: Only show if NOT logged in */}
+                        {!isLoggedIn && (
+                            <Link href="/login" className="btn bg-white hover:bg-slate-50 text-slate-800 rounded-full px-8 py-3 border border-slate-200 capitalize text-lg font-medium shadow-sm">
+                                Admin Login
+                            </Link>
+                        )}
                     </div>
                 </div>
 
                 {/* RIGHT SIDE: IMAGE & BADGE */}
                 <div className="relative flex justify-center lg:justify-end mt-8 lg:mt-0">
                     
-                    {/* Floating Offer Badge - CHANGED: Adjusted position for mobile to prevent overlap */}
+                    {/* Floating Offer Badge */}
                     <div className="absolute top-0 left-4 md:top-10 md:left-10 lg:-left-12 bg-white p-3 md:p-4 rounded-2xl shadow-xl z-20 max-w-[180px] md:max-w-[220px] border border-slate-100 animate-bounce-slow">
                         <div className="flex items-center gap-3 mb-2">
                             <div className="bg-green-100 p-2 rounded-full">

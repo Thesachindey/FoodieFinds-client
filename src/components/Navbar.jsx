@@ -31,7 +31,7 @@ const Navbar = () => {
             return (
                 <button 
                     onClick={handleLogout} 
-                    className=" font-bold "
+                    className=" font-semibold cursor-pointer "
                 >
                     Logout
                 </button>
@@ -65,7 +65,7 @@ const Navbar = () => {
                         </li> */}
                         
                         <li className="btn  bg-orange-600 hover:bg-orange-700 text-white border-none rounded-full   border-t border-slate-100 ">
-                            <AuthButton />
+                            <AuthButton/>
                         </li>
                     </ul>
                 </div>
