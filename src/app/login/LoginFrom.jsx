@@ -27,34 +27,34 @@ const LoginForm = () => {
     setError('');
   };
 
+  // --- SIMPLE MOCK LOGIN LOGIC ---
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
-    try {
-      const res = await fetch('https://foodiefinds-server.onrender.com/api/admin-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-        credentials: 'include', // important for HttpOnly cookies
-      });
+    // Simulate a short network delay for better UX
+    await new Promise((resolve) => setTimeout(resolve, 800));
 
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || 'Login failed');
-      }
+    const { email, password } = formData;
 
-      // Successful login → redirect
+    // Check credentials locally (No Backend Needed)
+    if (email === 'admin@foodiefinds.com' && password === 'admin123') {
+      
+      // Set a browser cookie so the app "remembers" you are logged in
+      document.cookie = "auth=true; path=/; max-age=86400"; 
+
+      // Redirect to Admin Page
       router.push('/admin/add-dish');
-    } catch (err) {
-      setError(err.message);
-    } finally {
+      
+    } else {
+      // Show error if wrong
+      setError('Invalid email or password');
       setIsLoading(false);
     }
   };
 
-  if (!mounted) return null; // Prevent SSR hydration mismatch
+  if (!mounted) return null;
 
   return (
     <div className="min-h-screen w-full flex flex-col lg:flex-row bg-white">
